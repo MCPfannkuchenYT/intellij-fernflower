@@ -1,77 +1,34 @@
-// Copyright 2000-2021 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-
-compileJava {
-  sourceCompatibility '11'
-  targetCompatibility '11'
+plugins {
+	// Apply Gradle Java Plugin for the gradle plugin
+	id 'java-library'
+	// Add maven plugin for publishing
+	id 'maven-publish'
 }
 
-group = 'net.fabricmc'
+// Repositories for dependencies
+repositories {
+	maven { url = "https://repo.spongepowered.org/maven" }
+}
+
+// Dependencies
+dependencies {
+	implementation 'org.jetbrains:annotations:20.1.0'
+}
+
+sourceCompatibility = targetCompatibility = 1.8
+
+group = 'de.pfannekuchen'
+version = '1.5.1'
 archivesBaseName = 'fabric-fernflower'
 
-version = '1.5.0'
-
-def ENV = System.getenv()
-version = version + (ENV.GITHUB_ACTIONS ? "" : "+local")
-
-sourceSets {
-  main.java.srcDirs 'src'
-  test.java.srcDirs 'test'
-}
-
-repositories { mavenCentral() }
-dependencies {
-  implementation 'org.jetbrains:annotations:20.1.0'
-  testImplementation 'junit:junit:4.12'
-  testImplementation 'org.assertj:assertj-core:3.12.2'
-}
-
-jar {
-  manifest {
-    attributes 'Main-Class': 'org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler'
-  }
-}
-
-task sourceJar(type:Jar) {
-  classifier = "sources"
-  from sourceSets.main.allSource
-}
-
-tasks.withType(JavaCompile).configureEach {
-  it.options.encoding = "UTF-8"
-
-  it.options.release = 11
-}
-
-java {
-  sourceCompatibility = JavaVersion.toVersion(11)
-  targetCompatibility = JavaVersion.toVersion(11)
-}
-
+// Publishing
 publishing {
-  publications {
-    mavenJava(MavenPublication) {
-      from components.java
-      artifact(sourceJar)
-    }
-  }
-
-  // select the repositories you want to publish to
-  repositories {
-    if (ENV.MAVEN_URL) {
-      maven {
-        url ENV.MAVEN_URL
-        credentials {
-          username ENV.MAVEN_USERNAME
-          password ENV.MAVEN_PASSWORD
+    publications {
+        mavenJava(MavenPublication) {
+        	groupId = project.group
+        	version = project.version
+        	artifactId = project.archivesBaseName
+            from components.java
         }
-      }
     }
-  }
-}
-
-// Dont publish module metadata to prevent gradle resolving this dep on outdated java versions.
-tasks.withType(GenerateModuleMetadata) {
-  enabled = false
 }

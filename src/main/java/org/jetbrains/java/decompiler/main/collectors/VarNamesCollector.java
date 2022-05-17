@@ -4,12 +4,12 @@ package org.jetbrains.java.decompiler.main.collectors;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class VarNamesCollector {
 
-	public static HashMap<String, String> whatCouldThisBe = new HashMap<>();
-	public static HashMap<String, String> whatCouldThisBe2 = new HashMap<>();
+	public static Map<String, String> params = new HashMap<>();
 	
   private final Set<String> usedNames = new HashSet<>();
 
@@ -29,7 +29,8 @@ public class VarNamesCollector {
 
   public String getFreeName(String type, String func, String proposition) {
 	 if (proposition.startsWith("subscribe_to_pancake")) {
-		 String in = whatCouldThisBe2.getOrDefault("p_" + whatCouldThisBe.getOrDefault(func, "xxxxxxx") + "_" + proposition.replaceAll("subscribe_to_pancake", "") + "_", "var" + proposition.replaceAll("subscribe_to_pancake", ""));
+		 String id = proposition.replaceAll("subscribe_to_pancake", "");
+		 String in = params.getOrDefault("param_" + func + id, "var" + id);
 		 if (in.startsWith("var")) {
 			 int index = Integer.parseInt(in.replace("var", ""));
 			 in = type;

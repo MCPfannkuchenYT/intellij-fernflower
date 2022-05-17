@@ -100,11 +100,11 @@ public class ClassWrapper {
           int varIndex = 0;
           if (!mt.hasModifier(CodeConstants.ACC_STATIC)) {
             varProc.getThisVars().put(new VarVersionPair(0, 0), classStruct.qualifiedName);
-            varProc.setVarName(new VarVersionPair(0, 0), vc.getFreeName(0));
+            varProc.setVarName(new VarVersionPair(0, 0), vc.getFreeName(varProc.getVarType(new VarVersionPair(0, 0)).getValue(), mt.getName(), 0));
             varIndex = 1;
           }
           for (int i = 0; i < md.params.length; i++) {
-            varProc.setVarName(new VarVersionPair(varIndex, 0), vc.getFreeName(varIndex));
+            varProc.setVarName(new VarVersionPair(varIndex, 0), vc.getFreeName(varProc.getVarType(new VarVersionPair(varIndex, 0)).getValue(), mt.getName(), varIndex));
             varIndex += md.params[i].getStackSize();
           }
         }
@@ -124,7 +124,7 @@ public class ClassWrapper {
         // rename vars so that no one has the same name as a field
         VarNamesCollector namesCollector = new VarNamesCollector();
         classStruct.getFields().forEach(f -> namesCollector.addName(f.getName()));
-        varProc.refreshVarNames(namesCollector);
+        varProc.refreshVarNames(mt.getName(), namesCollector);
 
         applyParameterNames(mt, md, varProc);  // if parameter names are present and should be used
 

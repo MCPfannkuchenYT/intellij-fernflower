@@ -56,7 +56,7 @@ public class VarDefinitionHelper {
     int varindex = 0;
     for (int i = 0; i < paramcount; i++) {
       implDefVars.add(varindex);
-      varproc.setVarName(new VarVersionPair(varindex, 0), vc.getFreeName(varindex));
+      varproc.setVarName(new VarVersionPair(varindex, 0), vc.getFreeName(varproc.getVarType(new VarVersionPair(varindex, 0)).getValue(), mt.getName(), varindex));
 
       if (thisvar) {
         if (i == 0) {
@@ -97,7 +97,7 @@ public class VarDefinitionHelper {
       if (lstVars != null) {
         for (VarExprent var : lstVars) {
           implDefVars.add(var.getIndex());
-          varproc.setVarName(new VarVersionPair(var), vc.getFreeName(var.getIndex()));
+          varproc.setVarName(new VarVersionPair(var), vc.getFreeName(varproc.getVarType(new VarVersionPair(varindex, 0)).getValue(), mt.getName(), var.getIndex()));
           var.setDefinition(true);
         }
       }
@@ -109,7 +109,7 @@ public class VarDefinitionHelper {
   }
 
 
-  public void setVarDefinitions() {
+  public void setVarDefinitions(String func) {
     VarNamesCollector vc = varproc.getVarNamesCollector();
 
     for (Entry<Integer, Statement> en : mapVarDefStatements.entrySet()) {
@@ -121,7 +121,7 @@ public class VarDefinitionHelper {
         continue;
       }
 
-      varproc.setVarName(new VarVersionPair(index.intValue(), 0), vc.getFreeName(index));
+      varproc.setVarName(new VarVersionPair(index.intValue(), 0), vc.getFreeName(varproc.getVarType(new VarVersionPair(index.intValue(), 0)).getValue(), func, index));
 
       // special case for
       if (stat.type == StatementType.DO) {

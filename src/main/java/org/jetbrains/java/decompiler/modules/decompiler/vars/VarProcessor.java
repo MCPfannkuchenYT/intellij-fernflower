@@ -47,9 +47,9 @@ public class VarProcessor {
     varVersions.setVarVersions(root, oldProcessor);
   }
 
-  public void setVarDefinitions(Statement root) {
+  public void setVarDefinitions(String func, Statement root) {
     mapVarNames = new HashMap<>();
-    new VarDefinitionHelper(root, method, this).setVarDefinitions();
+    new VarDefinitionHelper(root, method, this).setVarDefinitions(func);
   }
 
   public void setDebugVarNames(Map<Integer, String> mapDebugVarNames) {
@@ -90,10 +90,10 @@ public class VarProcessor {
     return varVersions == null ? null : varVersions.getMapOriginalVarIndices().get(index);
   }
 
-  public void refreshVarNames(VarNamesCollector vc) {
+  public void refreshVarNames(String func, VarNamesCollector vc) {
     Map<VarVersionPair, String> tempVarNames = new HashMap<>(mapVarNames);
     for (Entry<VarVersionPair, String> ent : tempVarNames.entrySet()) {
-      mapVarNames.put(ent.getKey(), vc.getFreeName(ent.getValue()));
+      mapVarNames.put(ent.getKey(), vc.getFreeName(getVarType(ent.getKey()).getValue(), func, ent.getValue()));
     }
   }
 

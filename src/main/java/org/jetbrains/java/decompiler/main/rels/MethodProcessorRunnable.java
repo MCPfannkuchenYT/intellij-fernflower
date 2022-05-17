@@ -192,7 +192,7 @@ public class MethodProcessorRunnable implements Runnable {
 
     SecondaryFunctionsHelper.identifySecondaryFunctions(root, varProc);
 
-    varProc.setVarDefinitions(root);
+    varProc.setVarDefinitions(mt.getName(), root);
 
     // must be the last invocation, because it makes the statement structure inconsistent
     // FIXME: new edge type needed

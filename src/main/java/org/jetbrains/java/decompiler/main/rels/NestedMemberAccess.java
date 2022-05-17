@@ -358,7 +358,7 @@ public class NestedMemberAccess {
             VarNamesCollector vnc = new VarNamesCollector();
             vnc.addName(varname);
 
-            methdest.varproc.refreshVarNames(vnc);
+            methdest.varproc.refreshVarNames(methsource.methodStruct.getName(), vnc);
             methdest.setOuterVarNames.add(varname);
           }
 

@@ -140,7 +140,7 @@ public class NestedClassProcessor {
                 }
               }
               else {
-                mapNewNames.put(varVersion, enclosingCollector.getFreeName(method.varproc.getVarName(varVersion)));
+                mapNewNames.put(varVersion, enclosingCollector.getFreeName(enclosingMethod.varproc.getVarType(varVersion).getValue(), method.methodStruct.getName(), method.varproc.getVarName(varVersion)));
               }
 
               varIndex += md_content.params[i].getStackSize();
@@ -156,7 +156,7 @@ public class NestedClassProcessor {
     Set<String> setNewOuterNames = new HashSet<>(mapNewNames.values());
     setNewOuterNames.removeAll(method.setOuterVarNames);
 
-    method.varproc.refreshVarNames(new VarNamesCollector(setNewOuterNames));
+    method.varproc.refreshVarNames(method.methodStruct.getName(), new VarNamesCollector(setNewOuterNames));
     method.setOuterVarNames.addAll(setNewOuterNames);
 
     for (Entry<VarVersionPair, String> entry : mapNewNames.entrySet()) {
@@ -482,7 +482,7 @@ public class NestedClassProcessor {
         Set<String> setNewOuterNames = new HashSet<>(mapNewNames.values());
         setNewOuterNames.removeAll(method.setOuterVarNames);
 
-        method.varproc.refreshVarNames(new VarNamesCollector(setNewOuterNames));
+        method.varproc.refreshVarNames(method.methodStruct.getName(), new VarNamesCollector(setNewOuterNames));
         method.setOuterVarNames.addAll(setNewOuterNames);
 
         for (Entry<VarVersionPair, String> entry : mapNewNames.entrySet()) {

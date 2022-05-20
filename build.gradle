@@ -18,7 +18,7 @@ dependencies {
 sourceCompatibility = targetCompatibility = 1.8
 
 group = 'de.pfannekuchen'
-version = '1.5.1'
+version = '1.6.0'
 archivesBaseName = 'fabric-fernflower'
 
 // Publishing

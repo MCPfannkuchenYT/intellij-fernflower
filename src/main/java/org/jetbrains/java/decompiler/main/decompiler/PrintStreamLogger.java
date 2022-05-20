@@ -5,11 +5,7 @@ import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger;
 
 public class PrintStreamLogger extends IFernflowerLogger {
 
-	@Override
-	public void startClass(String className) {
-		System.out.println("Decompiling " + className + "...");
-	}
-
+	@Override public void startClass(String className) {}
 	@Override public void writeMessage(String message, Severity severity) {}
 	@Override public void writeMessage(String message, Severity severity, Throwable t) { }
 	
